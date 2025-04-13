@@ -359,7 +359,7 @@ public class DonorRegisteration extends javax.swing.JFrame {
             
             
             this.setVisible(false);
-            DonorProfile dp = new DonorProfile();
+            DonorProfile dp = new DonorProfile(uid);
             dp.setVisible(true);
             
         } catch(SQLException e){
