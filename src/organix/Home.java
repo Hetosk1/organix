@@ -84,6 +84,11 @@ public class Home extends javax.swing.JFrame {
         });
 
         jButton4.setText("Admin Login");
+        jButton4.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jButton4MouseClicked(evt);
+            }
+        });
         jButton4.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton4ActionPerformed(evt);
@@ -170,6 +175,12 @@ public class Home extends javax.swing.JFrame {
         dl.setVisible(true);
         this.setVisible(false);
     }//GEN-LAST:event_jButton3MouseClicked
+
+    private void jButton4MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton4MouseClicked
+        AdminLogin al = new AdminLogin();
+        al.setVisible(true);
+        this.setVisible(false);
+    }//GEN-LAST:event_jButton4MouseClicked
 
     /**
      * @param args the command line arguments

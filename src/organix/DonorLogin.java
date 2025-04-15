@@ -160,7 +160,7 @@ public class DonorLogin extends javax.swing.JFrame {
                 dp.setVisible(true);
                 this.setVisible(false);
             } else {
-                System.out.println("Invalid credentials");
+                System.out.println("Invalid Credentials");
                 jLabel4.setText("Invalid Credentials");
             }
         } catch (SQLException e){
