@@ -122,6 +122,10 @@ public class AdminLogin extends javax.swing.JFrame {
             if(this.jdbc.rs.next()){
                 jLabel4.setText("");
                 jLabel5.setText("Login Successfull");
+                
+                AdminPanel ap = new AdminPanel();
+                ap.setVisible(true);
+                this.setVisible(false);
             } else {
                 jLabel4.setText("Invalid Credentials");
                 jLabel5.setText("");
