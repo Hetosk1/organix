@@ -5,6 +5,9 @@
 package organix;
 
 import java.sql.SQLException;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+import javax.swing.JOptionPane;
 
 /**
  *
@@ -48,6 +51,7 @@ public class DonorRegisteration extends javax.swing.JFrame {
         jPasswordField1 = new javax.swing.JPasswordField();
         jLabel8 = new javax.swing.JLabel();
         jComboBox2 = new javax.swing.JComboBox<>();
+        jLabel9 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setResizable(false);
@@ -134,6 +138,11 @@ public class DonorRegisteration extends javax.swing.JFrame {
                 jButton1MouseClicked(evt);
             }
         });
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
 
         jLabel6.setText("Blood Type");
 
@@ -153,6 +162,8 @@ public class DonorRegisteration extends javax.swing.JFrame {
                 jComboBox2ActionPerformed(evt);
             }
         });
+
+        jLabel9.setForeground(new java.awt.Color(255, 0, 0));
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -193,15 +204,18 @@ public class DonorRegisteration extends javax.swing.JFrame {
                                     .addComponent(jLabel5))
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jPasswordField1, javax.swing.GroupLayout.PREFERRED_SIZE, 287, javax.swing.GroupLayout.PREFERRED_SIZE)
                                     .addGroup(layout.createSequentialGroup()
                                         .addComponent(jCheckBox2)
                                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                        .addComponent(jCheckBox4)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                        .addComponent(jCheckBox5)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                        .addComponent(jCheckBox3))
-                                    .addComponent(jPasswordField1, javax.swing.GroupLayout.PREFERRED_SIZE, 287, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                            .addComponent(jLabel9)
+                                            .addGroup(layout.createSequentialGroup()
+                                                .addComponent(jCheckBox4)
+                                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                                .addComponent(jCheckBox5)
+                                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                                .addComponent(jCheckBox3)))))))
                         .addContainerGap(33, Short.MAX_VALUE))
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(jCheckBox1)
@@ -249,7 +263,9 @@ public class DonorRegisteration extends javax.swing.JFrame {
                         .addComponent(jCheckBox3)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jCheckBox1)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 58, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 40, Short.MAX_VALUE)
+                .addComponent(jLabel9)
+                .addGap(18, 18, 18)
                 .addComponent(jButton1)
                 .addGap(32, 32, 32))
             .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -300,9 +316,29 @@ public class DonorRegisteration extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_jCheckBox5ActionPerformed
 
+    public static boolean isValidEmail(String email) {
+        // Regex pattern for a basic valid email
+        String emailRegex = "^[A-Za-z0-9+_.-]+@[A-Za-z0-9.-]+$";
+
+        Pattern pattern = Pattern.compile(emailRegex);
+        Matcher matcher = pattern.matcher(email);
+
+        return matcher.matches();
+    }
+    
+    public static boolean isValidPassword(String password) {
+        
+        String passwordRegex = "^(?=.*[A-Z])(?=.*\\d)(?=.*[@$!%*?&])[A-Za-z\\d@$!%*?&]{8,}$";
+
+        Pattern pattern = Pattern.compile(passwordRegex);
+        Matcher matcher = pattern.matcher(password);
+
+        return matcher.matches();
+    }
+    
     private void jButton1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton1MouseClicked
-        String fullName = jTextField2.getText();
-        String email = jTextField1.getText();
+        String fullName = jTextField2.getText().trim();
+        String email = jTextField1.getText().trim();
         String bloodType = (String) jComboBox1.getSelectedItem();
         String gender = (String) jComboBox2.getSelectedItem();
         String password = new String(jPasswordField1.getPassword());
@@ -314,6 +350,42 @@ public class DonorRegisteration extends javax.swing.JFrame {
         if (jCheckBox4.isSelected()) organs.append("Kidney ");
         if (jCheckBox5.isSelected()) organs.append("Liver ");
         if (jCheckBox3.isSelected()) organs.append("Lungs ");
+        
+        if (fullName.isEmpty()) {
+            jLabel9.setText("Enter a full name");
+            return;
+        }
+
+        if (email.isEmpty()) {
+            jLabel9.setText("Enter email address");
+            return;
+        }
+
+        if (password.isEmpty()) {
+            jLabel9.setText("Enter password");
+            return;
+        }
+//        if(!isValidPassword(password)){
+////            Warning warning = new Warning();
+//            JOptionPane.showMessageDialog(this, "Password must contain\1 Upper case\n1 Digit\n1 Special Character\nTotal of 8 Characters", "Input Error", JOptionPane.ERROR_MESSAGE);
+//            return;
+//        }
+        
+        if(!isValidEmail(email)){
+            JOptionPane.showMessageDialog(this, "Enter a valid email", "Input Error", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+        
+        if(!jCheckBox2.isSelected() && !jCheckBox3.isSelected() && !jCheckBox4.isSelected() && !jCheckBox5.isSelected()){
+            JOptionPane.showMessageDialog(this, "Selected atleast one organ", "Input Error", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+        
+        if(!jCheckBox1.isSelected()){
+            JOptionPane.showMessageDialog(this, "Agree to Terms", "Agree to Terms", JOptionPane.ERROR_MESSAGE);
+            jLabel9.setText("Please agree to terms");
+            return;
+        }
 
         // Print values to console
         System.out.println("------ Donor Registration ------");
@@ -364,6 +436,7 @@ public class DonorRegisteration extends javax.swing.JFrame {
             dp.setVisible(true);
             
         } catch(SQLException e){
+            jLabel9.setText(e.getMessage());
             System.out.println(e.getMessage());
         }
     }//GEN-LAST:event_jButton1MouseClicked
@@ -379,6 +452,10 @@ public class DonorRegisteration extends javax.swing.JFrame {
     private void jComboBox2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBox2ActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_jComboBox2ActionPerformed
+
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jButton1ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -433,6 +510,7 @@ public class DonorRegisteration extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;
+    private javax.swing.JLabel jLabel9;
     private javax.swing.JPasswordField jPasswordField1;
     private javax.swing.JTextField jTextField1;
     private javax.swing.JTextField jTextField2;

@@ -2,6 +2,8 @@ package organix;
 
 
 import java.sql.SQLException;
+import javax.swing.JOptionPane;
+import static organix.DonorRegisteration.isValidEmail;
 
 public class DonorProfile extends javax.swing.JFrame {
 
@@ -262,12 +264,33 @@ public class DonorProfile extends javax.swing.JFrame {
                   
     private void jButton2MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton2MouseClicked
         System.out.println(this.uid);
+        if (jTextField1.getText().trim().isEmpty()) {
+            JOptionPane.showMessageDialog(this, "Enter Name", "Input Error", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+
+        if (jTextField2.getText().trim().isEmpty()) {
+            JOptionPane.showMessageDialog(this, "Enter Email", "Input Error", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+
+        if (jTextField3.getText().trim().isEmpty()) {
+            JOptionPane.showMessageDialog(this, "Enter a new password", "Input Error", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+        
+        if(!isValidEmail(jTextField2.getText().trim())){
+            JOptionPane.showMessageDialog(this, "Enter a valid email", "Input Error", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+        
         try{ 
             String query = "update user SET name='"+jTextField1.getText()+"', email='"+jTextField2.getText()+"', password='"+jTextField3.getText()+"' , blood_type='"+jComboBox1.getSelectedItem()+"', gender='"+jComboBox2.getSelectedItem()+"' WHERE uid="+this.uid;
             int result = this.jdbc.stmt.executeUpdate(query);
             System.out.println(result);
         } catch(SQLException e){
             System.out.println(e.getMessage());
+            JOptionPane.showMessageDialog(this, e.getMessage(), "Input Error", JOptionPane.ERROR_MESSAGE);
         }         
         
 

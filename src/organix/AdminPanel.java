@@ -24,8 +24,7 @@ public class AdminPanel extends javax.swing.JFrame {
         setSize(900, 600);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setLocationRelativeTo(null);
-
-        // Create components
+        
         organTable = new JTable();
         JScrollPane scrollPane = new JScrollPane(organTable);
         
@@ -33,19 +32,19 @@ public class AdminPanel extends javax.swing.JFrame {
         rejectButton = new JButton("Reject Selected");
         logoutButton = new JButton("Logout");
         
-        // Button panel
+        
         JPanel buttonPanel = new JPanel();
         buttonPanel.add(approveButton);
         buttonPanel.add(rejectButton);
         buttonPanel.add(logoutButton);
         
-        // Main layout
+        
         setLayout(new BorderLayout());
         add(new JLabel("Organ Donation Approvals", JLabel.CENTER), BorderLayout.NORTH);
         add(scrollPane, BorderLayout.CENTER);
         add(buttonPanel, BorderLayout.SOUTH);
         
-        // Add action listeners
+        
         approveButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -71,7 +70,7 @@ public class AdminPanel extends javax.swing.JFrame {
     
     private void loadOrganData() {
         try {
-            // Updated query to join donation, organ, and user tables
+            
             String query = "SELECT d.did, u.uid, d.oid, o.organ_name, u.email, u.name, u.blood_type, u.gender, d.status " +
                          "FROM donation d " +
                          "JOIN user u ON d.uid = u.uid " +
@@ -80,7 +79,7 @@ public class AdminPanel extends javax.swing.JFrame {
             
             jdbc.rs = jdbc.stmt.executeQuery(query);
             
-            // Get column names
+            
             ResultSetMetaData metaData = jdbc.rs.getMetaData();
             int columnCount = metaData.getColumnCount();
             Vector<String> columnNames = new Vector<>();
@@ -89,7 +88,7 @@ public class AdminPanel extends javax.swing.JFrame {
                 columnNames.add(metaData.getColumnName(i));
             }
             
-            // Get data rows
+            
             Vector<Vector<Object>> data = new Vector<>();
             while (jdbc.rs.next()) {
                 Vector<Object> row = new Vector<>();
@@ -99,7 +98,7 @@ public class AdminPanel extends javax.swing.JFrame {
                 data.add(row);
             }
             
-            // Create table model
+            
             DefaultTableModel model = new DefaultTableModel(data, columnNames) {
                 @Override
                 public Class<?> getColumnClass(int columnIndex) {
@@ -137,7 +136,7 @@ public class AdminPanel extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(this, "Successfully updated " + selectedRows.length + " records.",
                     "Update Successful", JOptionPane.INFORMATION_MESSAGE);
             
-            // Refresh the table
+            
             loadOrganData();
         } catch (SQLException e) {
             JOptionPane.showMessageDialog(this, "Error updating organ status: " + e.getMessage(),
