@@ -23,6 +23,13 @@ public class JDBC implements JDBCInterface{
     public ResultSet rs;
     
     JDBC(){
+        
+        try{
+            Class.forName("com.mysql.cj.jdbc.Driver");
+        } catch(ClassNotFoundException e){
+            System.out.println(e.getMessage());
+        }
+        
         try{
             
             this.conn = DriverManager.getConnection(this.url, this.user, this.password);
