@@ -7,12 +7,17 @@ import java.sql.ResultSet;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 
-public class JDBC {
+interface JDBCInterface {
+    public void getURL();
+    public void getUser();
+    public void getPassword();
+}
+
+public class JDBC implements JDBCInterface{
     
     private String url = "jdbc:mysql://localhost:3306/organix";
     private String user = "root";
     private String password = "root";
-    
     public Connection conn;
     public Statement stmt;
     public ResultSet rs;
@@ -27,6 +32,18 @@ public class JDBC {
             System.out.println(e.getMessage());
         }
         
+    }
+    
+    public void getUser(){
+        System.out.println(this.user);
+    }
+     
+    public void getPassword(){
+        System.out.println(this.password);
+    }
+    
+    public void getURL(){
+        System.out.println(this.url);
     }
    
     
