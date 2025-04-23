@@ -31,12 +31,21 @@ public class JDBC implements JDBCInterface{
         }
         
         try{
+            Class.forName("com.mysql.cj.jbc.Driver");
+        }catch (ClassNotFoundException e){
+            System.out.println(e.getMessage());
+
+        }
+        try{
             
             this.conn = DriverManager.getConnection(this.url, this.user, this.password);
             this.stmt = conn.createStatement();
             System.out.println("Connected to database");
         } catch(SQLException e) {
             System.out.println(e.getMessage());
+        }
+        finally {
+            System.out.println("Code execution done");
         }
         
     }
